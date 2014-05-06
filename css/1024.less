@@ -1,0 +1,28 @@
+.site-header-inner, .content-area, .widget-area, .site-info {
+	max-width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*--------------------------------------------------------------
+10.0 Content
+--------------------------------------------------------------*/
+.quarter-block {
+	margin-right: 2%;
+	margin-left: 2%;
+    width: 21.9%;
+    &:nth-of-type(odd) {
+		clear: none;
+		margin-left: 2%;
+	}
+	&:nth-of-type(even) {
+		margin-right: 2%;
+	}
+    &:nth-of-type(4n+1) {
+		clear: left;
+		margin-left: 0;
+	}
+	&:nth-of-type(4n) {
+		margin-right: 0;
+	}
+}

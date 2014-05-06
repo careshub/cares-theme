@@ -1,0 +1,18 @@
+/*--------------------------------------------------------------
+10.0 Content
+--------------------------------------------------------------*/
+
+.third-block {
+	border-bottom: none;
+	margin-right: 2%;
+	margin-left: 2%;
+    width: 30.65%;
+    float: left;	
+    &:nth-of-type(3n+1) {
+		clear: left;
+		margin-left: 0;
+	}
+	&:nth-of-type(3n) {
+		margin-right: 0;
+	}
+}
