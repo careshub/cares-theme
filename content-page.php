@@ -8,7 +8,12 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-		<h1 class="entry-title"><?php the_title(); ?></h1>
+		<?php if ( has_post_thumbnail() )
+				cares_responsive_thumbnail();
+			?>
+		<div class="entry-header-text">
+			<h1 class="entry-title"><?php the_title(); ?></h1>
+		</div>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">

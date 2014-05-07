@@ -330,6 +330,7 @@ textarea {
 --------------------------------------------------------------*/
 a {
 	color: royalblue;
+	text-decoration: none;
 }
 a:visited {
 	color: purple;
@@ -338,6 +339,14 @@ a:hover,
 a:focus,
 a:active {
 	color: midnightblue;
+}
+
+a.block {
+	&:hover,
+	&:focus,
+	&:active {
+		// .inner-shadow(0, 0, 20px, 10px, 0.9);
+	}
 }
 
 /*--------------------------------------------------------------
@@ -419,7 +428,7 @@ a:active {
 .site-main .comment-navigation,
 .site-main .paging-navigation,
 .site-main .post-navigation {
-	padding: 0 1em;
+	.setback();
 	margin: 0 0 1.5em;
 	overflow: hidden;
 }
@@ -427,7 +436,7 @@ a:active {
 	color: @graymid;
 	display: block;
 	font-size: 12px;
-	font-weight: 900;
+	font-weight: 700;
 	line-height: 2;
 	text-transform: uppercase;
 }
@@ -596,20 +605,36 @@ a:active {
 	background-color: @graylightest;
 }
 .content-container {
-	padding: 0 1em;
+	.setback();
 }
 .content-row {
 	// padding: 0 1em;
 }
 article {
-	&> .entry-header,
 	&> .entry-content,
-	&> .entry-footer, {
-		padding: 0 1em;
+	&> .entry-footer {
+		.setback();
+	}
+	&> .entry-header .entry-title,
+	&> .entry-header .entry-meta {
+		.setback();
+	}
+	/* post-thumbnail */
+	.entry-header .wp-post-image {
+		// .setforth;
+	}
+	// Has no thumnbail, so we need a margin
+	&.no-post-thumbnail {
+		margin-top: 4%;
 	}
 }
+.section-title {
+	.font-size( 1.8 );
+	margin-bottom: 1em;
+
+}
 .entry-header {
-	margin-top: 2em;
+	// margin-top: 2em;
 }
 // Various blocks
 .quarter-block, 
@@ -649,7 +674,71 @@ article {
 	clear: both;
 	margin: 0 0 1.5em;
 }
-
+// Main article gets special treatment
+.site-main > article:nth-of-type(1) {
+	// No featured image
+	.entry-header {
+		.entry-header-text {
+			.entry-title {
+				.font-size( 1.8 );
+				a {
+				}
+			}
+			.entry-meta {
+			}
+		}
+	}
+	// Has a featured image
+	&.has-post-thumbnail .entry-header {
+		position: relative;
+		img {
+			display: block;
+		}
+		.entry-header-text {
+			background-color: rgba(0, 0, 0, 0.5);
+			padding-top: 2%;
+			padding-bottom: 2%;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			.entry-title {
+				color: white;
+				a {
+					color: white;
+				}
+			}
+			.entry-meta {
+				display: none;
+			}
+		}
+	}
+}
+//Portfolio items
+// General styles, used in list views, on home page
+.portfolio_item {
+	img {
+		display: block; // removes line-height from default display: inline
+	}
+	.entry-header { 
+		background-color: @graylight;
+		padding-bottom: .5em;
+	}
+	.entry-title {
+		margin-top: .5em;
+		.font-size( 1.6 );
+	}
+	.entry-meta {
+		color: lighten(@black, 15%);
+	}
+}
+// Specific to individual portfolio items
+.single-portfolio_item .portfolio_item {
+	.entry-header {
+		background-color: @graylightest;
+		padding-bottom: 0;
+	}
+}
 /*--------------------------------------------------------------
 10.2 Asides
 --------------------------------------------------------------*/

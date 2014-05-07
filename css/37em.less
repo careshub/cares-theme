@@ -1,0 +1,46 @@
+/*--------------------------------------------------------------
+10.0 Content
+--------------------------------------------------------------*/
+.half-block, .quarter-block {
+	border-bottom: none;
+	margin-right: 3%;
+	margin-left: 3%;
+    width: 46.9%;
+    float: left;
+    &:nth-of-type(odd) {
+		clear:left;
+		margin-left: 0;
+	}
+	&:nth-of-type(even) {
+		margin-right: 0;
+	}
+}
+.site-main > article:nth-of-type(1) {
+	// no post thumbnail
+	.entry-header {
+		.entry-header-text {
+			.entry-title {
+				.font-size( 2.2 );
+				a {
+				}
+			}
+			.entry-meta {
+			}
+		}
+	}
+	// has a thumbnail
+	&.has-post-thumbnail .entry-header {
+		.entry-header-text {
+			.entry-title {
+				a {
+				}
+			}
+			.entry-meta {
+			}
+		}
+	}
+}
+
+.section-title {
+	.font-size( 2 );
+}

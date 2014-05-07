@@ -53,7 +53,12 @@ function cares_setup() {
 
 	if ( function_exists( 'add_image_size' ) ) { 
 		// Used as the post banner on the front page and single post pages
-		add_image_size( 'featured-desktop', 1024, 360, true ); //(cropped)
+		add_image_size( 'featured-desktop', 1024, 400, true ); //(cropped)
+		// Used for responsive images, eh? See inc/template-tags.php->cares_responsive_thumbnail() for implementation
+		add_image_size( 'featured-300', 300, 200, true ); //(cropped)
+		add_image_size( 'featured-450', 450, 225, true ); //(cropped)
+		add_image_size( 'featured-600', 600, 300, true ); //(cropped)
+		add_image_size( 'featured-800', 800, 350, true ); //(cropped)
 	}
 
 	// Setup the WordPress core custom background feature.
@@ -107,6 +112,34 @@ function cares_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'cares_scripts' );
+
+function limit_front_page_posts( $query ) {
+	if( is_front_page() && $query->is_main_query() ) {   	
+        $query->set( 'posts_per_page', 1 );
+        if ( $sticky_posts = get_option( 'sticky_posts' ) ) {
+        	// get_option( 'sticky_posts' ) returns trashed and draft-status stickies, unhelpfully, so we've got to compare against the post_status, too.
+        	$sticky_posts = implode( ',', $sticky_posts );
+        	global $wpdb;
+        	if ( $sticky_published_posts = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type LIKE 'post' AND post_status LIKE 'publish' AND ID IN ( {$sticky_posts} )" ) ) {  
+		        $query->set( 'post__in', $sticky_published_posts );
+		        // Tell WP not to lift a finger on the whole sticky thing, since we just did the heavy lifting.
+				$query->set( 'ignore_sticky_posts', 1 );
+			}
+		}
+    }
+}
+add_filter( 'pre_get_posts', 'limit_front_page_posts' );
+
+/**
+ * Specify "no-post-thumbnail" in post class, so we don't add margin then remove it if the post has a thumbnail.
+ */	
+function cares_no_thumbnail_class( $classes ) {
+    if ( ! in_array( 'has-post-thumbnail', $classes ) )
+        $classes[] = 'no-post-thumbnail';
+    
+    return $classes;
+}
+add_filter('post_class', 'cares_no_thumbnail_class', 98);
 
 /**
  * Implement the Custom Header feature.

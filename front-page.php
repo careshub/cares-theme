@@ -16,9 +16,7 @@ get_header(); ?>
 
 			<?php /* Start the Loop */ ?>
 			<?php while ( have_posts() ) : the_post(); ?>
-
 				<?php
-					the_post_thumbnail('featured-desktop');
 					/* Include the Post-Format-specific template for the content.
 					 * If you want to override this in a child theme, then include a file
 					 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
@@ -28,7 +26,7 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php cares_paging_nav(); ?>
+			<?php //cares_paging_nav(); ?>
 
 		<?php else : ?>
 
@@ -46,7 +44,9 @@ get_header(); ?>
 			); ?>
 
 			<?php if ( $loop->have_posts() ) : ?>
-				<div class="content-container">
+				<hr />
+				<section id="recent-project" class="content-container">
+					<h2 class="section-title">Recent Projects</h2>
 
 				<?php while( $loop->have_posts() ) : $loop->the_post(); ?>
 
@@ -56,7 +56,7 @@ get_header(); ?>
 
 				<?php endwhile; ?>
 
-				</div>
+				</section>
 
 			<?php endif; ?>
 
