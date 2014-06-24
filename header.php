@@ -14,7 +14,7 @@
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-
+<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:300,400,300italic' rel='stylesheet' type='text/css'>
 <?php wp_head(); ?>
 </head>
 
@@ -24,9 +24,9 @@
 	<header id="masthead" class="site-header" role="banner">
 		<div class="site-header-inner">
 			<div class="site-branding">
-				<a title="MU Homepage" id="mu-logo" class="mu-logo" href="http://www.missouri.edu/"><img src="<?php echo get_stylesheet_directory_uri() . '/img/mu-logo-gold.png'; ?>" alt="MU logo" class=""></a>
+				<!-- <a title="MU Homepage" id="mu-logo" class="mu-logo" href="http://www.missouri.edu/"><img src="<?php echo get_stylesheet_directory_uri() . '/img/mu-logo-gold.png'; ?>" alt="MU logo" class=""></a> -->
 
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class=""><img src="<?php echo get_stylesheet_directory_uri() . '/img/division-title.gif'; ?>" alt="CARES - C A R E S" class=""><span class="screen-reader-text"><?php bloginfo( 'name' ); ?></span></a></h1>
+				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class=""><span class="screen-reader-text"><?php bloginfo( 'name' ); ?></span></a></h1>
 				<!-- <h2 class="site-description"><?php bloginfo( 'description' ); ?></h2> -->
 			</div>
 

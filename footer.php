@@ -12,9 +12,15 @@
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'cares' ) ); ?>"><?php printf( __( 'Proudly powered by %s', 'cares' ), 'WordPress' ); ?></a>
+			<?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
+				<ul id="sidebar">
+					<?php dynamic_sidebar( 'footer-1' ); ?>
+				</ul>
+			<?php endif; ?>
+			<!-- <a href="<?php echo esc_url( __( 'http://wordpress.org/', 'cares' ) ); ?>"><?php printf( __( 'Proudly powered by %s', 'cares' ), 'WordPress' ); ?></a>
 			<span class="sep"> | </span>
-			<?php printf( __( 'Theme: %1$s by %2$s.', 'cares' ), 'CARES', '<a href="http://underscores.me/" rel="designer">Underscores.me</a>' ); ?>
+			<?php printf( __( 'Theme: %1$s by %2$s.', 'cares' ), 'CARES', '<a href="http://underscores.me/" rel="designer">Underscores.me</a>' ); ?> -->
+
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->

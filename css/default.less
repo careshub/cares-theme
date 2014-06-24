@@ -112,27 +112,51 @@ select,
 textarea {
 	color: @black;
 	// font-family: sans-serif;
-	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+	font-family: "Merriweather Sans", Helvetica, Arial, sans-serif;
 	// font-size: 15px;
 	// font-size: 1.5rem;
+	font-weight: 300;
 	.font-size(1.5);
-	line-height: 1.5;
+	line-height: 1.6;
 }
 h1, h2, h3, h4, h5, h6 {
 	clear: both;
-	font-weight: 600;
+	font-weight: 400;
+}
+h1 {
+	.font-size(2.4);
+	margin-bottom: 1em;
+}
+h2 {
+	.font-size(2.2);
+	margin-bottom: 1em;
+}
+h3 {
+	.font-size(1.8);
+	margin-bottom: 1em;
+}
+h4 {
+	// .font-size(1.5);
+	text-transform: uppercase;
+	margin-bottom: 1em;
+}
+h5 {
+	// .font-size(1.2);
+	margin-bottom: 1em;
 }
 p {
 	margin-bottom: 1.5em;
 }
 b, strong {
-	font-weight: bold;
+	font-weight: 400;
 }
 dfn, cite, em, i {
 	font-style: italic;
 }
 blockquote {
+	border-left: 2px solid @mugold;
 	margin: 0 1.5em;
+	padding-left: 1.5em;
 }
 address {
 	margin: 0 0 1.5em;
@@ -198,13 +222,24 @@ ul {
 ol {
 	list-style: decimal;
 }
+ul, ol {
+	&.no-bullets {
+		list-style-type: none;
+	}
+	&.horizontal {
+		li {
+			display: inline;
+			margin-right: 1.5em;
+		}
+	}
+}
 li > ul,
 li > ol {
 	margin-bottom: 0;
 	margin-left: 1.5em;
 }
 dt {
-	font-weight: bold;
+	font-weight: 400;
 }
 dd {
 	margin: 0 1.5em 1.5em;
@@ -221,7 +256,7 @@ table {
 	width: 100%;
 }
 th {
-	font-weight: bold;
+	font-weight: 400;
 }
 
 /*--------------------------------------------------------------
@@ -436,7 +471,7 @@ a.block {
 	color: @graymid;
 	display: block;
 	font-size: 12px;
-	font-weight: 700;
+	font-weight: 400;
 	line-height: 2;
 	text-transform: uppercase;
 }
@@ -453,6 +488,20 @@ a.block {
 	// text-align: right;
 	// width: 50%;
 }
+// About subsection navigation
+.menu-about-subnav-container {
+	margin-top: 1em;
+	.menu {
+		margin-left: 4%;
+		li {
+			a {
+			}
+			&.current-menu-item a {
+				border-bottom: 1px solid @mugold;
+			}
+		}
+	}
+}
 
 /*--------------------------------------------------------------
 5.1 Headers and Footers
@@ -464,21 +513,18 @@ a.block {
 	.site-branding {
 		width: 100%;
 		margin: 0 auto; /*Centered for small screens*/
-		.mu-logo {
-		    // background: url("img/mu-logo.png") no-repeat scroll left top rgba(0, 0, 0, 0);
-		    float: left;
-		    font-size: 0.5em;
-		    height: 59px;
-		    margin: 0 1em 1em 0;
-		    width: 53px;
-		    &:hover, &:focus {
-			    // background-position: left -61px;
-			}
-		}
 		.site-title {
 			clear: none;
 			// float: left;
-			a {
+			a {	
+				display: block;
+				background: url('img/CARES-unit-signature.png') no-repeat;
+				width: 200px;
+				height: 50px;
+				background-position: 0 -54px;
+				&:hover {
+					background-position: 0 0;
+				}
 			}
 		}
 	}	
@@ -487,6 +533,8 @@ a.block {
 	background-color: @black;
 	border-top: 2px solid @mugold;
 	padding: 1em;
+	color: white;
+	.font-size(1.2);
 	a {
 		color: @mugold;
 		text-decoration: none;
@@ -515,7 +563,7 @@ a.block {
 	color: #21759b;
 	display: block;
 	font-size: 14px;
-	font-weight: bold;
+	font-weight: 400;
 	height: auto;
 	left: 5px;
 	line-height: normal;
@@ -630,8 +678,7 @@ article {
 }
 .section-title {
 	.font-size( 1.8 );
-	margin-bottom: 1em;
-
+	// margin-bottom: 1em;
 }
 .entry-header {
 	// margin-top: 2em;
@@ -643,12 +690,65 @@ article {
 	margin-bottom: 2em;
 	padding-bottom: 2em;
 	border-bottom: 1px solid @graylight;
+	&.half-compact {
+		margin-bottom: 0;
+		// padding-bottom: 0;
+	}
 	&.compact {
 		margin-bottom: 0;
 		padding-bottom: 0;
 	}
+	&.no-border {
+		border-bottom: none;
+	}
+	& > article {
+		margin-bottom: 0; // Articles immediately inside half-block don't need extra margin
+	}
 }
-
+// Profiles - pretty different
+// Short version
+.post-type-archive .profile {
+	.entry-title, .entry-meta, .entry-content {
+		padding-left: 0;
+		padding-right: 0;
+		overflow: auto;
+	}
+	.wp-post-image, .entry-title, .entry-meta {
+		// float: left;
+		// clear: none;
+	}
+	.entry-header a {
+		display: inline-block;
+		position: relative;
+		max-width: 100%
+	}
+	img {
+		display: block;
+	}
+	.entry-header-text {
+		color: white;
+		background-color: rgba(0, 0, 0, 0.66);
+	    padding: 2% 4%;
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		p {
+			margin-bottom: 0;
+		}
+	}
+	.entry-title {
+		margin-bottom: 0;
+	}
+	.entry-content {
+		clear: left;
+		margin-top: 1em;
+	}
+	.wp-post-image {
+		margin-right: 1em;
+	}
+}
 /*--------------------------------------------------------------
 10.1 Posts and pages
 --------------------------------------------------------------*/
@@ -664,6 +764,12 @@ article {
 .single .byline,
 .group-blog .byline {
 	display: inline;
+}
+.page-title {
+	margin-top: 1.4em;
+	margin-right: 4%;
+	margin-left: 4%
+	// margin-bottom: 2em;
 }
 .page-content,
 .entry-content,
@@ -681,6 +787,7 @@ article {
 		.entry-header-text {
 			.entry-title {
 				.font-size( 1.8 );
+				margin-bottom: 0;
 				a {
 				}
 			}
@@ -726,6 +833,7 @@ article {
 	}
 	.entry-title {
 		margin-top: .5em;
+		margin-bottom: 0;
 		.font-size( 1.6 );
 	}
 	.entry-meta {
@@ -739,6 +847,42 @@ article {
 		padding-bottom: 0;
 	}
 }
+// Undoing some styling to make the profile pages more traditional looking.
+.single-profile .site-main > article:nth-of-type(1) {
+	margin-top: 4%;
+	.entry-header {
+		.setback();
+		position: relative;
+		img {
+			display: block;
+		}
+		.entry-header-text {
+			background-color: rgba(0, 0, 0, 0);
+			// padding-top: 2%;
+			// padding-bottom: 2%;
+			padding: 0;
+			position: relative;
+			.entry-title {
+				color: black;
+				padding: 0;
+				a {
+					// color;
+				}
+			}
+			.entry-meta {
+				display: inline;
+				padding: 0;
+				p {
+					margin-bottom: .2em;
+					&.job_title {
+						margin-bottom: 1em;
+					}
+				}
+			}
+		}
+	}
+}
+
 /*--------------------------------------------------------------
 10.2 Asides
 --------------------------------------------------------------*/

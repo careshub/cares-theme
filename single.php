@@ -10,11 +10,20 @@ get_header(); ?>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
+		<?php
+		$post_type = get_post_type();
+
+		// If this is a profile page, show the about subnav
+		if ( $post_type == 'profile')
+			wp_nav_menu( array( 'theme_location' => 'about-subnav', 'menu_class' => 'menu no-bullets horizontal', ) ); 
+		?>
+
+
 		<?php while ( have_posts() ) : the_post(); ?>
 
 			<?php 
 			// For custom post types, use their content-custom_post_type.php templates.
-			$post_type = get_post_type();
+
 			if ( $post_type != 'post') {
 				get_template_part( 'content', $post_type );
 			} else {
@@ -22,7 +31,10 @@ get_header(); ?>
 			}
 			?>
 
-			<?php twentyfourteen_post_nav(); ?>
+			<?php 
+			if ( $post_type != 'profile') 
+				cares_post_nav(); 
+			?>
 
 			<?php
 				// If comments are open or we have at least one comment, load up the comment template

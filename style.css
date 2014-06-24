@@ -197,10 +197,11 @@ input,
 select,
 textarea {
   color: #211f1f;
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-family: "Merriweather Sans", Helvetica, Arial, sans-serif;
+  font-weight: 300;
   font-size: 15px;
   font-size: 1.5rem;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 h1,
 h2,
@@ -209,14 +210,36 @@ h4,
 h5,
 h6 {
   clear: both;
-  font-weight: 600;
+  font-weight: 400;
+}
+h1 {
+  font-size: 24px;
+  font-size: 2.4rem;
+  margin-bottom: 1em;
+}
+h2 {
+  font-size: 22px;
+  font-size: 2.2rem;
+  margin-bottom: 1em;
+}
+h3 {
+  font-size: 18px;
+  font-size: 1.8rem;
+  margin-bottom: 1em;
+}
+h4 {
+  text-transform: uppercase;
+  margin-bottom: 1em;
+}
+h5 {
+  margin-bottom: 1em;
 }
 p {
   margin-bottom: 1.5em;
 }
 b,
 strong {
-  font-weight: bold;
+  font-weight: 400;
 }
 dfn,
 cite,
@@ -225,7 +248,9 @@ i {
   font-style: italic;
 }
 blockquote {
+  border-left: 2px solid #f1b82d;
   margin: 0 1.5em;
+  padding-left: 1.5em;
 }
 address {
   margin: 0 0 1.5em;
@@ -296,13 +321,22 @@ ul {
 ol {
   list-style: decimal;
 }
+ul.no-bullets,
+ol.no-bullets {
+  list-style-type: none;
+}
+ul.horizontal li,
+ol.horizontal li {
+  display: inline;
+  margin-right: 1.5em;
+}
 li > ul,
 li > ol {
   margin-bottom: 0;
   margin-left: 1.5em;
 }
 dt {
-  font-weight: bold;
+  font-weight: 400;
 }
 dd {
   margin: 0 1.5em 1.5em;
@@ -321,7 +355,7 @@ table {
   width: 100%;
 }
 th {
-  font-weight: bold;
+  font-weight: 400;
 }
 /*--------------------------------------------------------------
 4.0 Forms
@@ -530,9 +564,18 @@ a:active {
   color: #a29d9d;
   display: block;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 2;
   text-transform: uppercase;
+}
+.menu-about-subnav-container {
+  margin-top: 1em;
+}
+.menu-about-subnav-container .menu {
+  margin-left: 4%;
+}
+.menu-about-subnav-container .menu li.current-menu-item a {
+  border-bottom: 1px solid #f1b82d;
 }
 /*--------------------------------------------------------------
 5.1 Headers and Footers
@@ -547,20 +590,26 @@ a:active {
   margin: 0 auto;
   /*Centered for small screens*/
 }
-.site-header .site-branding .mu-logo {
-  float: left;
-  font-size: 0.5em;
-  height: 59px;
-  margin: 0 1em 1em 0;
-  width: 53px;
-}
 .site-header .site-branding .site-title {
   clear: none;
+}
+.site-header .site-branding .site-title a {
+  display: block;
+  background: url('img/CARES-unit-signature.png') no-repeat;
+  width: 200px;
+  height: 50px;
+  background-position: 0 -54px;
+}
+.site-header .site-branding .site-title a:hover {
+  background-position: 0 0;
 }
 .site-footer {
   background-color: #211f1f;
   border-top: 2px solid #f1b82d;
   padding: 1em;
+  color: white;
+  font-size: 12px;
+  font-size: 1.2rem;
 }
 .site-footer a {
   color: #f1b82d;
@@ -588,7 +637,7 @@ a:active {
   color: #21759b;
   display: block;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 400;
   height: auto;
   left: 5px;
   line-height: normal;
@@ -691,7 +740,6 @@ article.no-post-thumbnail {
 .section-title {
   font-size: 18px;
   font-size: 1.8rem;
-  margin-bottom: 1em;
 }
 .quarter-block,
 .third-block,
@@ -700,11 +748,64 @@ article.no-post-thumbnail {
   padding-bottom: 2em;
   border-bottom: 1px solid #dedcdc;
 }
+.quarter-block.half-compact,
+.third-block.half-compact,
+.half-block.half-compact {
+  margin-bottom: 0;
+}
 .quarter-block.compact,
 .third-block.compact,
 .half-block.compact {
   margin-bottom: 0;
   padding-bottom: 0;
+}
+.quarter-block.no-border,
+.third-block.no-border,
+.half-block.no-border {
+  border-bottom: none;
+}
+.quarter-block > article,
+.third-block > article,
+.half-block > article {
+  margin-bottom: 0;
+}
+.post-type-archive .profile .entry-title,
+.post-type-archive .profile .entry-meta,
+.post-type-archive .profile .entry-content {
+  padding-left: 0;
+  padding-right: 0;
+  overflow: auto;
+}
+.post-type-archive .profile .entry-header a {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+}
+.post-type-archive .profile img {
+  display: block;
+}
+.post-type-archive .profile .entry-header-text {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.66);
+  padding: 2% 4%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.post-type-archive .profile .entry-header-text p {
+  margin-bottom: 0;
+}
+.post-type-archive .profile .entry-title {
+  margin-bottom: 0;
+}
+.post-type-archive .profile .entry-content {
+  clear: left;
+  margin-top: 1em;
+}
+.post-type-archive .profile .wp-post-image {
+  margin-right: 1em;
 }
 /*--------------------------------------------------------------
 10.1 Posts and pages
@@ -720,6 +821,11 @@ article.no-post-thumbnail {
 .group-blog .byline {
   display: inline;
 }
+.page-title {
+  margin-top: 1.4em;
+  margin-right: 4%;
+  margin-left: 4%;
+}
 .page-content,
 .entry-content,
 .entry-summary {
@@ -732,6 +838,7 @@ article.no-post-thumbnail {
 .site-main > article:nth-of-type(1) .entry-header .entry-header-text .entry-title {
   font-size: 18px;
   font-size: 1.8rem;
+  margin-bottom: 0;
 }
 .site-main > article:nth-of-type(1).has-post-thumbnail .entry-header {
   position: relative;
@@ -766,6 +873,7 @@ article.no-post-thumbnail {
 }
 .portfolio_item .entry-title {
   margin-top: .5em;
+  margin-bottom: 0;
   font-size: 16px;
   font-size: 1.6rem;
 }
@@ -775,6 +883,35 @@ article.no-post-thumbnail {
 .single-portfolio_item .portfolio_item .entry-header {
   background-color: #edebeb;
   padding-bottom: 0;
+}
+.single-profile .site-main > article:nth-of-type(1) {
+  margin-top: 4%;
+}
+.single-profile .site-main > article:nth-of-type(1) .entry-header {
+  padding: 0 4%;
+  position: relative;
+}
+.single-profile .site-main > article:nth-of-type(1) .entry-header img {
+  display: block;
+}
+.single-profile .site-main > article:nth-of-type(1) .entry-header .entry-header-text {
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0;
+  position: relative;
+}
+.single-profile .site-main > article:nth-of-type(1) .entry-header .entry-header-text .entry-title {
+  color: black;
+  padding: 0;
+}
+.single-profile .site-main > article:nth-of-type(1) .entry-header .entry-header-text .entry-meta {
+  display: inline;
+  padding: 0;
+}
+.single-profile .site-main > article:nth-of-type(1) .entry-header .entry-header-text .entry-meta p {
+  margin-bottom: .2em;
+}
+.single-profile .site-main > article:nth-of-type(1) .entry-header .entry-header-text .entry-meta p.job_title {
+  margin-bottom: 1em;
 }
 /*--------------------------------------------------------------
 10.2 Asides
@@ -900,6 +1037,14 @@ object {
     font-size: 22px;
     font-size: 2.2rem;
   }
+  .single-profile .site-main > article:nth-of-type(1) .entry-header img {
+    display: inline-block;
+    margin-right: 1em;
+  }
+  .single-profile .site-main > article:nth-of-type(1) .entry-header .entry-header-text {
+    display: inline-block;
+    vertical-align: top;
+  }
   .section-title {
     font-size: 20px;
     font-size: 2rem;
@@ -913,6 +1058,10 @@ object {
     float: left;
     width: 50%;
   }
+  .site-header .site-branding .site-title {
+    margin-top: .4em;
+    margin-bottom: 0;
+  }
   .main-navigation {
     float: right;
     width: 49%;
@@ -923,14 +1072,11 @@ object {
   }
   .main-navigation ul li a {
     padding: .5em 1em;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: #211f1f;
     transition: background-color 0.3s ease;
   }
   .main-navigation ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.04);
-    -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+    background-color: #3b3838;
     -webkit-box-shadow: 0 1 3 rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 0 1 3 rgba(0, 0, 0, 0.4);
     box-shadow: 0 1 3 rgba(0, 0, 0, 0.4);
@@ -938,13 +1084,14 @@ object {
   .main-navigation .current_page_item a,
   .main-navigation .current-menu-item a {
     color: white;
-    background-color: rgba(255, 255, 255, 0.1);
-    -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+    background-color: #312e2e;
+    border-bottom: 1px solid #f1b82d;
     -webkit-box-shadow: 0 1 3 rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 0 1 3 rgba(0, 0, 0, 0.4);
     box-shadow: 0 1 3 rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: inset 0 0px 3px 0 rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: inset 0 0px 3px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 0px 3px 0 rgba(0, 0, 0, 0.25);
   }
   /*--------------------------------------------------------------
 10.0 Content

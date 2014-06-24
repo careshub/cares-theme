@@ -42,7 +42,8 @@ function cares_setup() {
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
-		'primary' => __( 'Primary Menu', 'cares' ),
+		'primary' 		=> __( 'Primary Menu', 'cares' ),
+		'about-subnav' 	=> __( 'About Subnav Menu', 'cares' ),
 	) );
 
 	// Enable support for Post Formats.
@@ -89,6 +90,15 @@ function cares_widgets_init() {
 		'name'          => __( 'Sidebar', 'cares' ),
 		'id'            => 'sidebar-1',
 		'description'   => '',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h1 class="widget-title">',
+		'after_title'   => '</h1>',
+	) );
+	register_sidebar( array(
+		'name'          => __( 'Footer', 'cares' ),
+		'id'            => 'footer-1',
+		'description'   => 'Used for contact information in the footer',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h1 class="widget-title">',
