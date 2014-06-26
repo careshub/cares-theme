@@ -87,3 +87,40 @@ function cares_setup_author() {
 	}
 }
 add_action( 'wp', 'cares_setup_author' );
+
+function cares_limit_front_page_posts( $query ) {
+	if( is_front_page() && $query->is_main_query() && !$query->is_paged ) {   	
+        $query->set( 'posts_per_page', 1 );
+        if ( $sticky_posts = get_option( 'sticky_posts' ) ) {
+        	// get_option( 'sticky_posts' ) returns trashed and draft-status stickies, unhelpfully, so we've got to compare against the post_status, too.
+        	$sticky_posts = implode( ',', $sticky_posts );
+        	global $wpdb;
+        	if ( $sticky_published_posts = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type LIKE 'post' AND post_status LIKE 'publish' AND ID IN ( {$sticky_posts} )" ) ) {  
+		        $query->set( 'post__in', $sticky_published_posts );
+		        // Tell WP not to lift a finger on the whole sticky thing, since we just did the heavy lifting.
+				$query->set( 'ignore_sticky_posts', 1 );
+			}
+		}
+    } else if ( is_front_page() && $query->is_main_query() && $query->is_paged ) {
+        $posts_per_page = isset($query->query_vars['posts_per_page']) ? $query->query_vars['posts_per_page'] : get_option('posts_per_page');
+        // If you want to use 'offset', set it to something that passes empty()
+        // 0 will not work, but adding 0.1 does (it gets normalized via absint())
+        // I use + 1, so it ignores the first post that is already on the front page
+        $query->query_vars['offset'] = ( ($query->query_vars['paged'] - 2) * $posts_per_page ) + 1;
+    }
+}
+add_filter( 'pre_get_posts', 'cares_limit_front_page_posts' );
+
+function cares_adjust_offset_pagination( $found_posts, $query ) {
+
+    //Define our offset again...
+    $offset = 1;
+
+    //Ensure we're modifying the right query object...
+    if ( is_front_page() && $query->is_main_query() && $query->is_posts_page ) {
+        //Reduce WordPress's found_posts count by the offset... 
+        return $found_posts - $offset;
+    }
+    return $found_posts;
+}
+add_filter('found_posts', 'cares_adjust_offset_pagination', 1, 2 );

@@ -123,23 +123,6 @@ function cares_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'cares_scripts' );
 
-function limit_front_page_posts( $query ) {
-	if( is_front_page() && $query->is_main_query() ) {   	
-        $query->set( 'posts_per_page', 1 );
-        if ( $sticky_posts = get_option( 'sticky_posts' ) ) {
-        	// get_option( 'sticky_posts' ) returns trashed and draft-status stickies, unhelpfully, so we've got to compare against the post_status, too.
-        	$sticky_posts = implode( ',', $sticky_posts );
-        	global $wpdb;
-        	if ( $sticky_published_posts = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type LIKE 'post' AND post_status LIKE 'publish' AND ID IN ( {$sticky_posts} )" ) ) {  
-		        $query->set( 'post__in', $sticky_published_posts );
-		        // Tell WP not to lift a finger on the whole sticky thing, since we just did the heavy lifting.
-				$query->set( 'ignore_sticky_posts', 1 );
-			}
-		}
-    }
-}
-add_filter( 'pre_get_posts', 'limit_front_page_posts' );
-
 /**
  * Specify "no-post-thumbnail" in post class, so we don't add margin then remove it if the post has a thumbnail.
  */	

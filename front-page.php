@@ -26,7 +26,7 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php //cares_paging_nav(); ?>
+			<?php cares_paging_nav(); ?>
 
 		<?php else : ?>
 
@@ -34,12 +34,18 @@ get_header(); ?>
 
 		<?php endif; ?>
 
-		<?php // Next, loop through the three most recent portfolio items ?>
+		<?php // Next, loop through the three most recent portfolio items, if this is the front, front page 
+		if ( ! is_paged() ):
+		?>
+
 
 		<?php $loop = new WP_Query(
 				array(
 					'post_type'      => 'portfolio_item',
 					'posts_per_page' => 3,
+					'orderby' => 'meta_value', 
+					'meta_key' => 'portfolio_item_feature',
+					// 'order' => 'DESC'
 				)
 			); ?>
 
@@ -59,6 +65,7 @@ get_header(); ?>
 				</section>
 
 			<?php endif; ?>
+		<?php endif; // Check for is-paged() ?>
 
 		</main><!-- #main -->
 	</div><!-- #primary -->
