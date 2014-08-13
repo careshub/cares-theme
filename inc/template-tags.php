@@ -41,7 +41,7 @@ if ( ! function_exists( 'cares_post_nav' ) ) :
  *
  * @since Twenty Fourteen 1.0
  */
-function cares_post_nav() {
+function cares_post_nav( ) {
 	// Don't print empty markup if there's nowhere to navigate.
 	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
 	$next     = get_adjacent_post( false, '', false );
@@ -52,16 +52,54 @@ function cares_post_nav() {
 
 	?>
 	<nav class="navigation post-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentyfourteen' ); ?></h1>
+		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'cares' ); ?></h1>
 		<div class="nav-links">
 			<?php
+			$post_type = get_post_type();
+			if ( $post_type == 'portfolio_item') { 
+				$prev_link_text = '<span class="meta-nav">Previous Project</span>%title'; 
+				$next_link_text = '<span class="meta-nav">Next Project</span>%title';
+			} else {
+				$prev_link_text = '<span class="meta-nav">Previous Post</span>%title';
+				$next_link_text = '<span class="meta-nav">Next Post</span>%title';
+			}
+			
 			if ( is_attachment() ) :
-				previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'twentyfourteen' ) );
+				previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'cares' ) );
 			else :
-				previous_post_link( '%link', __( '<span class="meta-nav">Previous Post</span>%title', 'twentyfourteen' ) );
-				next_post_link( '%link', __( '<span class="meta-nav">Next Post</span>%title', 'twentyfourteen' ) );
+				previous_post_link( '%link', __( $prev_link_text, 'cares' ) );
+				next_post_link( '%link', __( $next_link_text, 'cares' ) );
 			endif;
 			?>
+		</div><!-- .nav-links -->
+	</nav><!-- .navigation -->
+	<?php
+}
+endif;
+
+if ( ! function_exists( 'cares_archive_nav' ) ) :
+/**
+ * Display navigation to next/previous post when applicable.
+ *
+ * @since Twenty Fourteen 1.0
+ */
+function cares_archive_nav( $post_type, $link_text = null ) {
+
+	// Get the name of the post type
+	$obj = get_post_type_object( $post_type );
+	if ( ! isset( $obj ) ) return;
+	$archive_name = $obj->labels->name;
+	
+	//if no nav text specified, set default based on CPT name
+	if ( ! isset( $link_text ) )
+	$link_text = "See all " . $archive_name;
+	
+	?>
+	<nav class="navigation to-archive-navigation" role="navigation">
+		<h1 class="screen-reader-text"><?php _e( 'Archive navigation', 'cares' ); ?></h1>
+		<div class="nav-links">
+			<?php $archive_link = get_post_type_archive_link( $post_type ); ?>
+			<a href="<?php echo $archive_link; ?>" alt="<?php echo $link_text; ?>"><h3><?php echo $link_text; ?></h3></a>
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
 	<?php

@@ -12,6 +12,8 @@ if ( ! isset( $content_width ) ) {
 	$content_width = 640; /* pixels */
 }
 
+define('WP_DEBUG', true);
+
 if ( ! function_exists( 'cares_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -32,7 +34,7 @@ function cares_setup() {
 
 	// Add default posts and comments RSS feed links to head.
 	add_theme_support( 'automatic-feed-links' );
-
+	
 	/*
 	 * Enable support for Post Thumbnails on posts and pages.
 	 *
@@ -111,15 +113,39 @@ add_action( 'widgets_init', 'cares_widgets_init' );
  * Enqueue scripts and styles.
  */
 function cares_scripts() {
+	wp_enqueue_script( 'jquery' );
 	wp_enqueue_style( 'cares-style', get_stylesheet_uri() );
 
 	wp_enqueue_script( 'cares-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
+	
+	//wp_register_script( 'cares-infinite-ajax', get_template_directory_uri() . '/js/cares-infinite-ajax.js' );
+	//wp_enqueue_script( 'cares-infinite-ajax', get_template_directory_uri() . '/js/cares-infinite-ajax.js', 'jquery' );
 
 	wp_enqueue_script( 'cares-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+	
+	wp_register_script(
+		'cares-frontend-ajax',
+		get_template_directory_uri().'/js/cares-frontend-ajax.js',
+		array( 'jquery' ),
+		false,
+		false
+	);
+	
+	//let js find the admin-ajax file
+	wp_localize_script(
+		'cares-frontend-ajax',
+		'cares_ajax',
+		array(
+			'adminAjax' => admin_url( 'admin-ajax.php' )//,
+			//'dashboardURL' => get_bloginfo( 'url' ) . NM_USER_DASH
+		)
+	);
+	wp_enqueue_script('cares-frontend-ajax');
+	
 }
 add_action( 'wp_enqueue_scripts', 'cares_scripts' );
 
@@ -142,17 +168,31 @@ add_filter('post_class', 'cares_no_thumbnail_class', 98);
 /**
  * Custom template tags for this theme.
  */
-require get_template_directory() . '/inc/template-tags.php';
+//moved to plugins - TODO: rethink strategy
+//require get_template_directory() . '/inc/template-tags.php';
 
 /**
  * Custom functions that act independently of the theme templates.
  */
-require get_template_directory() . '/inc/extras.php';
+//moved to plugins - TODO: rethink strategy
+//require get_template_directory() . '/inc/extras.php';
 
 /**
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Load shiny admin user customizations.
+ */
+//moved to plugins
+//require get_template_directory() . '/inc/admin.php';
+
+/**
+ * Load ajax functions file.
+ */
+//require_once( trailingslashit( get_template_directory() ). '/inc/cares-ajax.php');
+require get_template_directory() . '/inc/cares-ajax.php';
 
 /**
  * Load Jetpack compatibility file.

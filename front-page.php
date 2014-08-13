@@ -1,29 +1,65 @@
 <?php
 /**
- * The front page template file.
+ * Template Name: Front Page
  *
  * Used to build the front-facing page.
  *
  * @package CARES
  */
 
-get_header(); ?>
+get_header(); 
+
+//Get Home Page content
+while ( have_posts() ) : the_post();
+	$front_page_content = get_the_content();
+endwhile;
+
+// The first part of the page is the 'featured post' item
+$featured_item_loop = cares_get_featured_item();
+
+/*	The second part of the page show Recent Projects
+ * 
+ * We can't use pre_get_posts for a page template, 
+ * 	per http://codex.wordpress.org/Plugin_API/Action_Reference/pre_get_posts
+ *		- First, show 'sticky' posts AND projects
+ *		- Next, show recent posts
+ *		- limited to 6 total for now and then ajax/infinite more as necessary
+ *
+ */
+ 
+//the total number of Recent Projects to display
+$total_num_projects = cares_get_total_posts_of_type( 'portfolio_item' );
+$num_recent_projects = 6;
+
+$postids = cares_get_sticky_portfolio_ids();
+
+//set flag for first part of Recent Projects loop
+if ( !( is_null ( $postids ) ) ) $have_sticky_posts = true;
+
+$num_recent = $num_recent_projects - sizeof( $postids );
+
+$recent_proj_loop = new WP_Query(
+	array(
+		'post_type'      	=> 'portfolio_item',
+		'posts_per_page' 	=> $num_recent,
+		'order' 			=> 'DESC', 
+		'post__not_in'		=> $postids
+	)
+); 
+?>
 
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
-		<?php if ( have_posts() ) : ?>
+		<?php if ( $featured_item_loop->have_posts() ) : ?>
 
 			<?php /* Start the Loop */ ?>
-			<?php while ( have_posts() ) : the_post(); ?>
+			<?php while( $featured_item_loop->have_posts() ) : $featured_item_loop->the_post(); ?>
+				<div class="featured">
 				<?php
-					/* Include the Post-Format-specific template for the content.
-					 * If you want to override this in a child theme, then include a file
-					 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-					 */
 					get_template_part( 'content', get_post_format() );
 				?>
-
+				</div>
 			<?php endwhile; ?>
 
 			<?php cares_paging_nav(); ?>
@@ -33,40 +69,72 @@ get_header(); ?>
 			<?php get_template_part( 'content', 'none' ); ?>
 
 		<?php endif; ?>
-
+		
+		
 		<?php // Next, loop through the three most recent portfolio items, if this is the front, front page 
+		//account for sticky projects
+		
 		if ( ! is_paged() ):
 		?>
-
-
-		<?php $loop = new WP_Query(
-				array(
-					'post_type'      => 'portfolio_item',
-					'posts_per_page' => 3,
-					'orderby' => 'meta_value', 
-					'meta_key' => 'portfolio_item_feature',
-					// 'order' => 'DESC'
-				)
-			); ?>
-
-			<?php if ( $loop->have_posts() ) : ?>
+			<?php if ( $have_sticky_posts ) : ?>
 				<hr />
-				<section id="recent-project" class="content-container">
+				<section id="recent-projects" class="content-container">
 					<h2 class="section-title">Recent Projects</h2>
 
-				<?php while( $loop->have_posts() ) : $loop->the_post(); ?>
+				<?php foreach( $postids as $id ) { 
+					//set up post data for sticky posts
+					$post = get_post( $id ); ?>
+					
+					<div class="third-block">
+						<?php get_template_part( 'content', get_post_type( $post ) ); ?>
+					</div>
+
+				<?php } ?>
+				
+				<input type="hidden" name="project_page" value="1" />
+
+				<?php //cares_archive_nav( 'portfolio_item', 'See More Projects' ); ?>
+			<?php endif; ?>
+			
+			<?php if ( $recent_proj_loop->have_posts() ) : 
+				
+				// if we don't have any sticky posts, we'll need to render the <section> and section-title
+				if ( !$have_sticky_posts ) { ?>
+					<hr />
+					<section id="recent-projects" class="content-container">
+					
+						 <h2 class="section-title">Recent Projects</h2>
+						 
+				<?php } ?>
+				
+				<?php while( $recent_proj_loop->have_posts() ) : $recent_proj_loop->the_post(); ?>
 
 					<div class="third-block">
 						<?php get_template_part( 'content', get_post_type() ); ?>
 					</div>
 
 				<?php endwhile; ?>
-
+				
+				<?php if ( !$have_sticky_posts ) { 
+					// if we don't have any sticky posts, we'll need to render the hidden page number here ?>
+					<input type="hidden" name="project_page" value="1" />
+				<?php } ?>
 				</section>
-
 			<?php endif; ?>
+	
 		<?php endif; // Check for is-paged() ?>
 
+		<div class="loadmore aligncenter">
+			<a class="more-projects">See More Projects <!--&#x25BC;--></a>
+			<div class="spinny"></div>
+			<div id="more_posts"><input type="hidden" id="num_more_posts" value="<?php if ( $total_num_projects > 6 ) echo '1'; else echo '0'; ?>" /></div>
+		</div>
+		<hr />
+		
+		<div class="lower-content">
+			<?php echo $front_page_content; ?>
+		</div>
+		
 		</main><!-- #main -->
 	</div><!-- #primary -->
 

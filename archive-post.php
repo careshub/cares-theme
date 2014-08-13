@@ -1,9 +1,9 @@
 
 <?php
 /**
- * The template for displaying Portfolio Archive pages.
+ * Template Name: Post Archive
  * 
- * We've altered the loop here, since it's main, to order by sticky posts
+ * We've altered the loop here, since it's main, to order by sticky posts (and we can't user pre_get_posts on a page...grr)
  *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
@@ -15,7 +15,7 @@ get_header();
 
 ?>
 
-	<section id="primary" class="content-area portfolio-archive">
+	<section id="primary" class="content-area post-archive">
 		<main id="main" class="site-main content-container" role="main">
 		
 		<?php //loop it
@@ -24,7 +24,7 @@ get_header();
 			<header class="page-header">
 			
 				<h1 class="page-title">
-					Projects
+					Posts
 				</h1>
 				<?php 
 					get_search_form();  
@@ -55,10 +55,10 @@ get_header();
 			</section>
 			
 			
-			<input type="hidden" name="project_page" value="1" />
+			<input type="hidden" name="post_page" value="1" />
 			
 			<div class="loadmore aligncenter">
-				<a class="more-projects">See More Projects</a>
+				<a class="more-projects">See More Posts</a>
 				<div class="spinny"></div>
 				<div id="more_posts"><input type="hidden" id="num_more_posts" value="<?php if ( $total_num_projects > 6 ) echo '1'; else echo '0'; ?>" /></div>
 			</div>

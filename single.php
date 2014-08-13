@@ -28,6 +28,7 @@ get_header(); ?>
 				get_template_part( 'content', $post_type );
 			} else {
 				get_template_part( 'content', 'single' );
+				cares_archive_nav( $post_type );
 			}
 			?>
 

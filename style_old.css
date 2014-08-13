@@ -129,18 +129,12 @@ a img {
 2.0 Typography
 --------------------------------------------------------------*/
 body,button,input,select,textarea {
-  color: #222222;
-  /*font-family: "Merriweather Sans", Helvetica, Arial, sans-serif;
-  font-family: 'Lato', sans-serif;
-  font-family: 'Open Sans', sans-serif;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-family: 'Arimo', sans-serif;
-  font-family: 'Droid Sans', sans-serif; */
-  font-family: 'Source Sans Pro', Arial, sans-serif; 
+  color: #211f1f;
+  font-family: "Merriweather Sans", Helvetica, Arial, sans-serif; 
   font-weight: 300;
   font-size: 15px;
-  font-size: 1.6rem;
-  line-height: 1.5em;
+  font-size: 1.5rem;
+  line-height: 1.6;
 }
 h1,h2,h3,h4,h5,h6 {
   clear: both;
@@ -170,7 +164,6 @@ h5 {
 }
 p {
   margin-bottom: 1.5em;
-  padding-left:1px;
 }
 b,strong {
   font-weight: 400;
@@ -329,13 +322,12 @@ input[type="radio"] {
   /* Addresses excess padding in IE8/9 */
 }
 input[type="search"] {
-	-webkit-appearance: textfield;
-	/* Addresses appearance set to searchfield in S5, Chrome */
-	-webkit-box-sizing: content-box;
-	/* Addresses box sizing set to border-box in S5, Chrome (include -moz to future-proof) */
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-	float:left;
+  -webkit-appearance: textfield;
+  /* Addresses appearance set to searchfield in S5, Chrome */
+  -webkit-box-sizing: content-box;
+  /* Addresses box sizing set to border-box in S5, Chrome (include -moz to future-proof) */
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
 }
 input[type="search"]::-webkit-search-decoration {
   /* Corrects inner padding displayed oddly in S5, Chrome on OSX */
@@ -387,16 +379,14 @@ textarea {
 5.1 Links
 --------------------------------------------------------------*/
 a {
-  color: #900000;
+  color: royalblue;
   text-decoration: none;
 }
 a:visited {
-	color:#6C1B1B;
- /* color: #6274D2;*/
+  color: #6274D2;
 }
 a:hover,a:focus,a:active {
-	color:#6C1B1B;
-  /*color: #3042a5;*/
+  color: #3042a5;
 }
 /*--------------------------------------------------------------
 5.2 Menus
@@ -489,9 +479,7 @@ a:hover,a:focus,a:active {
   border-bottom: 1px solid #f1b82d;
 }
 .site-main .to-archive-navigation{
-	float: none;
-    margin: 0 auto;
-    text-align: center;
+  float:right;
 }
 
 /*--------------------------------------------------------------
@@ -539,9 +527,6 @@ a:hover,a:focus,a:active {
   color: white;
   font-size: 12px;
   font-size: 1.2rem;
-}
-.site-footer p {
-	line-height:1.5em;
 }
 .site-footer a {
   color: #f1b82d;
@@ -676,14 +661,14 @@ article > .entry-footer {
 .half-block article > .entry-footer,
 .third-block article > .entry-content,
 .third-block article > .entry-footer {
-  padding: 0 6%;
+  padding: 0 2%;
 }
 
 
 article > .entry-header .entry-title,
 article > .entry-header .entry-meta {
-  padding: 0 0 0 1px;
-  /*padding: 0 1em;*/
+  /*padding: 0 4%;*/
+  padding: 0 1em;
 }
 article.no-post-thumbnail {
   margin-top: 4%;
@@ -789,6 +774,7 @@ article.no-post-thumbnail .entry-title,
 .entry-content,
 .entry-summary {
   margin: 1.5em 0 0;
+  padding: 0 1em;
 }
 .page-links {
   clear: both;
@@ -827,24 +813,17 @@ article.no-post-thumbnail .entry-title,
 .site-main > article:nth-of-type(1).has-post-thumbnail .entry-header .entry-header-text .entry-title,
 .site-main .featured > article:nth-of-type(1).has-post-thumbnail .entry-header .entry-header-text .entry-title {
   color: white;
-  padding: 0 4%;
-  line-height:1.5em;
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.2);
 }
 .site-main > article:nth-of-type(1).has-post-thumbnail .entry-header .entry-header-text .entry-title a,
 .site-main .featured > article:nth-of-type(1).has-post-thumbnail .entry-header .entry-header-text .entry-title a {
   color: white;
 }
 .site-main > article:nth-of-type(1).has-post-thumbnail .entry-header .entry-header-text .entry-meta,
-.site-main .featured > article:nth-of-type(1).has-post-thumbnail .entry-header .entry-header-text .entry-meta,
-.site-main > article:nth-of-type(1).no-post-thumbnail .entry-header .entry-header-text .entry-meta,
-.site-main .featured > article:nth-of-type(1).no-post-thumbnail .entry-header .entry-header-text .entry-meta {
+.site-main .featured > article:nth-of-type(1).has-post-thumbnail .entry-header .entry-header-text .entry-meta {
   display: none;
 }
 .site-main .featured > article:nth-of-type(1).has-post-thumbnail  .entry-content p {
   margin:2em 0;
-  font-size:1.8rem;
-  line-height:1.5em;
 }
 .lower-content {
 	margin:2em 0;
@@ -855,14 +834,15 @@ article.no-post-thumbnail .entry-title,
   width:100%;
 }
 .portfolio_item .entry-header {
-  background-color: transparent;
+  background-color: #dedcdc;
   padding-bottom:0.5em;
 }
 .portfolio_item .entry-title {
   margin-top: 1em;
   margin-bottom: 0.5em;
-  font-size: 2rem;
-  line-height:1.3em;
+  font-size: 16px;
+  font-size: 1.6rem;
+  line-height:1.6em;
 }
 .portfolio_item .single .entry-title,
 .featured .portfolio_item .entry-title {
@@ -945,7 +925,7 @@ article.no-post-thumbnail .entry-title,
 a.more-projects {
 	cursor: pointer;
     display: inline-block;
-    font-size: 2rem;
+    font-size: 1.6rem;
     margin: 1% 0;
     text-align: center;
 }
@@ -1161,7 +1141,7 @@ object {
   .search-results form#searchform {
     float:right;
     max-width:33%;
-    margin-top:1.4em;
+    margin-top:2.4em;
     margin-bottom:0;
   }
   .search-results .no-results form#searchform {
@@ -1171,8 +1151,7 @@ object {
 	max-width:100%;
   }
   .portfolio-archive form#searchform input#searchsubmit {
-	float:right;
-	padding:4px 0 0 4px;
+    
   }
 	
 	

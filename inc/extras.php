@@ -88,9 +88,30 @@ function cares_setup_author() {
 }
 add_action( 'wp', 'cares_setup_author' );
 
+//well, we're doing this more differently...or trying things, anyway
 function cares_limit_front_page_posts( $query ) {
-	if( is_front_page() && $query->is_main_query() && !$query->is_paged ) {   	
+	if( is_front_page() && $query->is_main_query() && !$query->is_paged ) {
         $query->set( 'posts_per_page', 1 );
+        //$query->set( 'posts_per_page', 1 );
+        //$query->set( 'posts_per_page', 1 );
+		/*
+		'post_type'      =>  array( 'portfolio_item', 'post' ),
+		'posts_per_page' => 1,
+		'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key' => 'portfolio_item_feature',
+					'value' => 'yes'
+				),
+				array(
+					'key' => 'post_feature',
+					'value' => 'yes'
+				)
+			),
+		'order' => 'DESC'
+		*/
+		
+		
         if ( $sticky_posts = get_option( 'sticky_posts' ) ) {
         	// get_option( 'sticky_posts' ) returns trashed and draft-status stickies, unhelpfully, so we've got to compare against the post_status, too.
         	$sticky_posts = implode( ',', $sticky_posts );
@@ -109,7 +130,107 @@ function cares_limit_front_page_posts( $query ) {
         $query->query_vars['offset'] = ( ($query->query_vars['paged'] - 2) * $posts_per_page ) + 1;
     }
 }
-add_filter( 'pre_get_posts', 'cares_limit_front_page_posts' );
+//add_filter( 'pre_get_posts', 'cares_limit_front_page_posts' );
+
+/**
+ * Sets the portfolio page posts to -1.
+ *
+ * It allows us to go through all posts to find sticky portfolio items,
+ * since WP hasn't built up sticky posts option for CPT.
+ *
+ * @global WP_Query $query WordPress Query object.
+ * @return void
+ */
+function cares_limit_portfolio_page_posts( $query ) {
+	if( is_post_type_archive( 'portfolio_item' ) && $query->is_main_query() && !is_admin() ) {
+		$query->set( 'posts_per_page', -1 );
+		//need to set to -1 so we can see all sticky posts to sort by, regardless of publish date or order
+	} 
+}
+add_filter( 'pre_get_posts', 'cares_limit_portfolio_page_posts' );
+
+/**
+ * Orderg by sticky things first on the portfolio item archive, !admin.  
+ *
+ * Can't use 'sticky_posts' since it is not YET supported for CPT ..  
+ * Not sure how this will shake out with ajax, but should be ok if we adjust the queries there..
+ *
+ * @param array $args Configuration arguments.
+ * @return array
+ */
+add_filter( 'the_posts', 'order_by_sticky', PHP_INT_MAX, 2 );
+
+function order_by_sticky( $posts, $query, $page = 1 ) {
+	//define offset so we can reuse this for ajax call? 
+	//$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1; 
+
+	if ( is_post_type_archive( 'portfolio_item' ) && $query->is_main_query() && !$query->is_paged ) {
+		// run once
+		
+		$query->set( 'posts_per_page', -1 );
+		
+		remove_filter( current_filter(), __FUNCTION__, PHP_INT_MAX, 2 );
+		$nonsticky = array();
+		$sticky = array();
+		$has_yes = false;
+		
+		foreach ( $posts as $post ) {
+			$sticky_meta = get_post_meta( $post->ID, 'portfolio_item_sticky', TRUE );
+			if ( $sticky_meta == 'yes' ) {
+				//echo 'yes';
+				$sticky[] = $post;
+			} else {
+				$nonsticky[] = $post;
+			}
+		}
+		//return all posts, ordered
+		$posts = array_merge( $sticky, $nonsticky );
+		
+		//now, get offset and remove elements from front of array, if necessary
+		//array array_splice ( array &$input , int $offset [, int $length [, mixed $replacement = array() ]] )
+		$offset = ( $paged - 1 ) * 6;
+		$returned_posts = array_splice( $posts, $offset, 6 );
+		
+		return $returned_posts;
+		
+	} else if ( is_front_page() && $query->is_main_query() && !is_admin() ) {
+		/* do the same for the front page, but:
+			- exclude the featured project
+			- include post items
+		*/
+		echo 'hello!';
+		// run once (remove this filter here)
+		remove_filter( current_filter(), __FUNCTION__, PHP_INT_MAX, 2 );
+		$nonsticky = array();
+		$sticky = array();
+		
+		foreach ( $posts as $post ) {
+			$sticky_portfolio_meta = get_post_meta( $post->ID, 'portfolio_item_sticky', TRUE );
+			$sticky_post_meta = get_post_meta( $post->ID, 'post_sticky', TRUE );
+			if ( ( $sticky_portfolio_meta == 'yes' ) || ( $sticky_post_meta == 'yes' ) ) {
+				//echo 'yes';
+				$sticky[] = $post;
+			} else {
+				$nonsticky[] = $post;
+			}
+		}
+		//return all posts, ordered
+		$posts = array_merge( $sticky, $nonsticky );
+		
+		//now, get offset and remove elements from front of array, if necessary
+		//array array_splice ( array &$input , int $offset [, int $length [, mixed $replacement = array() ]] )
+		$offset = ( $paged - 1 ) * 6;
+		$returned_posts = array_splice( $posts, $offset, 6 );
+		
+		return $posts;
+	}
+	
+	//set_query_var( 'paged', 2 );
+	
+	return $posts;
+	//return $returned_posts;
+}
+
 
 function cares_adjust_offset_pagination( $found_posts, $query ) {
 
@@ -123,4 +244,137 @@ function cares_adjust_offset_pagination( $found_posts, $query ) {
     }
     return $found_posts;
 }
-add_filter('found_posts', 'cares_adjust_offset_pagination', 1, 2 );
+//add_filter('found_posts', 'cares_adjust_offset_pagination', 1, 2 );
+
+/* 
+ * MISC functions
+ */
+
+/* Get 1d array of sticky portfolio ids for post__not_in ajax calls, etc.  */
+function cares_get_sticky_portfolio_ids() {
+
+	global $wpdb;
+	
+	$meta_key 		= 'portfolio_item_sticky';
+	$meta_key_value	= 'yes';
+	$post_type 		= 'portfolio_item';
+	$post_type1 	= 'post';
+
+	$postids = $wpdb->get_col( $wpdb->prepare(
+		"
+		SELECT      ID
+		FROM        $wpdb->posts
+		INNER JOIN 	$wpdb->postmeta 
+			ON 		$wpdb->posts.id = $wpdb->postmeta.post_id
+		WHERE       ( $wpdb->posts.post_type = %s
+					OR $wpdb->posts.post_type = %s)
+			AND 	$wpdb->postmeta.meta_key = %s 
+			AND 	$wpdb->postmeta.meta_value = %s
+		LIMIT %d
+		",
+		$post_type,
+		$post_type1,
+		$meta_key, 
+		$meta_key_value,
+		10000
+	) ); 
+	
+	return $postids;
+}
+
+/*
+ * Get most-recently published Featured Item
+ *
+ * Return portfolio_item or post with appropriate 'featured' designation in meta data and 
+ * most recently published, if no 'featured', return most recent portfolio_item or post
+ *
+ * @return post
+ */
+ function cares_get_featured_item() {
+ 
+	global $wpdb;
+	
+	$featured_item = new WP_Query(
+		array(
+			'post_type'      =>  array( 'portfolio_item', 'post' ),
+			'posts_per_page' => 1,
+			'meta_query' => array(
+					'relation' => 'OR',
+					array(
+						'key' => 'portfolio_item_feature',
+						'value' => 'yes'
+					),
+					array(
+						'key' => 'post_feature',
+						'value' => 'yes'
+					)
+				),
+			'order' => 'DESC'
+		)
+	); 
+
+	//if there are no featured posts, feature the latest post or portfolio item
+	if ( !( $featured_item->have_posts() ) ) {
+
+		$featured_item = new WP_Query(
+			array(
+				'post_type'      =>  array( 'portfolio_item', 'post' ),
+				'posts_per_page' => 1,
+				'order' => 'DESC'
+			)
+		);
+		
+	}
+	
+	return $featured_item;
+ 
+}
+
+/* 
+ * Interrupt front-end searches to only look through projects right now, as requested..
+ *
+ */ 
+add_action('pre_get_posts','cares_search_posts');
+function cares_search_posts( $query ) { 
+
+	if ( !is_admin() && $query->is_main_query() ) {
+		if ($query->is_search) {
+			$query->set('post_type', 'portfolio_item');
+		}
+	}
+}
+
+/* 
+ * Return related project object array
+ *
+ */
+function cares_get_related( $post_type = 'portfolio_item' ){
+
+	global $wpdb;
+
+
+}
+
+/* 
+ * Return number of posts
+ *
+ * @param string $post_type Post Type
+ * @return int $total_posts Total number of posts of type
+ *
+ */
+function cares_get_total_posts_of_type( $post_type = 'portfolio_item' ){ //portfolio_item == project
+
+	global $wpdb;
+	
+	$args = array( 
+		'post_type' 		=> $post_type,
+		'posts_per_page'	=> -1,
+		'post_status'		=> 'publish'
+	);
+	
+	$post_query = new WP_Query( $args );
+	
+	return $post_query->found_posts;
+
+}
+
