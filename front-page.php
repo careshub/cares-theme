@@ -42,8 +42,7 @@ $recent_proj_loop = new WP_Query(
 		'post_type'      	=> 'portfolio_item',
 		'posts_per_page' 	=> $num_recent,
 		'order' 			=> 'DESC', 
-		'post__not_in'		=> $sticky_postids,
-		'post_status'		=> 'publish'
+		'post__not_in'		=> $sticky_postids
 	)
 ); 
 

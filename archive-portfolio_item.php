@@ -12,6 +12,8 @@
 
 get_header(); 
 
+//the total number of published projects that we have
+$total_num_projects = cares_get_total_posts_of_type( 'portfolio_item' );
 
 ?>
 

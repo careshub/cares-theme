@@ -388,14 +388,17 @@ textarea {
 --------------------------------------------------------------*/
 a {
   color: #900000;
+  color:#3042a5;
   text-decoration: none;
 }
 a:visited {
 	color:#6C1B1B;
- /* color: #6274D2;*/
+	color: #6274D2;
+  color:#3042a5;
 }
 a:hover,a:focus,a:active {
 	color:#6C1B1B;
+	color: #6274D2;
   /*color: #3042a5;*/
 }
 /*--------------------------------------------------------------
@@ -1148,6 +1151,10 @@ object {
 	.site-main .featured > article:nth-of-type(1).has-post-thumbnail .entry-header .entry-header-text {
 	  position: absolute;
 	}
+	.site-main > article:nth-of-type(1).has-post-thumbnail.profile .entry-header .entry-header-text,
+	.site-main .featured > article:nth-of-type(1).has-post-thumbnail.profile .entry-header .entry-header-text {
+	  position: relative;
+	}
   
   /*--------------------------------------------------------------
 10.0 Content
@@ -1186,14 +1193,16 @@ object {
     margin-top:1.75em;
     margin-bottom:0;
   }
-  .search-results .no-results form#searchform {
+  .search-results .no-results form#searchform,
+  .not-found form#searchform {
 	float:none;
 	margin-bottom:2em;
 	margin-top:0;
 	max-width:100%;
   }
   .portfolio-archive form#searchform input#searchsubmit,
-  .search-results form#searchform input#searchsubmit  {
+  .search-results form#searchform input#searchsubmit,
+	.not-found form#searchform input#searchsubmit {
 	
 	padding:4px 0 0 4px;
   }
