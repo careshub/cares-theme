@@ -50,8 +50,16 @@
 					'after'  => '</div>',
 				) );
 			?>
+			
+			<?php if ( function_exists( 'cares_project_client' ) ) : ?>
+				<div class="entry-meta">
+					<p><em>Client: <?php cares_project_client(); ?></em></p>
+					<?php //echo "<p><b>Sticky? " . get_post_meta( $post->ID, 'portfolio_item_sticky', TRUE ) . "</b></p>"; ?>
+				</div><!-- .entry-meta -->
+			<?php endif; ?>
+			
 		</div><!-- .entry-content -->
-
+		
 		<footer class="entry-footer">
 			<?php
 				/* translators: used between list items, there is a space after the comma */

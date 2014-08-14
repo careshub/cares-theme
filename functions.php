@@ -198,3 +198,6 @@ require get_template_directory() . '/inc/cares-ajax.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+//set default image for profiles
+define( 'CARES_PROFILE_IMG_DEFAULT', get_template_directory_uri() . '/img/profile_default.gif' );

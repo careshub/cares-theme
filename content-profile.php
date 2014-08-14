@@ -39,8 +39,11 @@
 
 	<?php if ( is_singular( get_post_type() ) ) : ?>
 		<header class="entry-header clear">
-			<?php if ( has_post_thumbnail() )
+			<?php if ( has_post_thumbnail() ) {
 				the_post_thumbnail( 'profile-large' );
+			} else { ?>
+				<img class="attachment-profile-large wp-post-image" width="300" height="300" alt="profile image" src="<?php echo CARES_PROFILE_IMG_DEFAULT; ?>">
+			<?php }
 			?>		
 			<div class="entry-header-text">
 				<h1 class="entry-title"><?php the_title(); ?></h1>
@@ -89,8 +92,11 @@
 		<header class="entry-header clear">
 
 			<a href="<?php the_permalink(); ?>" rel="bookmark" class="block">
-				<?php if ( has_post_thumbnail() )
+				<?php if ( has_post_thumbnail() ){
 					cares_responsive_profile_thumbnail( 3 );
+				} else { ?>
+					<img class="attachment-profile-large wp-post-image" width="300" height="300" alt="profile image" src="<?php echo CARES_PROFILE_IMG_DEFAULT; ?>">
+				<?php }
 				?>
 
 				<div class="entry-header-text">

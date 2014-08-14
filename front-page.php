@@ -141,11 +141,15 @@ $featured_item_loop = cares_get_featured_item();
 			</div>
 		<?php } ?>
 		
-		<hr />
-		
-		<div class="lower-content">
-			<?php echo $front_page_content; ?>
-		</div>
+		<?php if ( !empty( $front_page_content ) ) { ?>
+			<div class="clear"></div>
+			<hr />
+			
+			<div class="lower-content">
+							
+				<?php echo $front_page_content; ?>
+			</div>
+		<?php } ?>
 		
 		</main><!-- #main -->
 	</div><!-- #primary -->

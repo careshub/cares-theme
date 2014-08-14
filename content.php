@@ -78,7 +78,7 @@
 
 			<a href="<?php the_permalink(); ?>" rel="bookmark" class="block">
 				<?php if ( has_post_thumbnail() )
-					cares_responsive_thumbnail( 2 );
+					cares_responsive_thumbnail( );
 				?>
 				<div class="entry-header-text">
 					<h1 class="entry-title"><?php the_title(); ?></h1>
