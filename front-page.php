@@ -14,8 +14,7 @@ while ( have_posts() ) : the_post();
 	$front_page_content = get_the_content();
 endwhile;
 
-// The first part of the page is the 'featured post' item
-$featured_item_loop = cares_get_featured_item();
+wp_reset_postdata();
 
 /*	The second part of the page show Recent Projects
  * 
@@ -31,21 +30,28 @@ $featured_item_loop = cares_get_featured_item();
 $total_num_projects = cares_get_total_posts_of_type( 'portfolio_item' );
 $num_recent_projects = 6;
 
-$postids = cares_get_sticky_portfolio_ids();
+$sticky_postids = cares_get_sticky_portfolio_ids();
 
 //set flag for first part of Recent Projects loop
-if ( !( is_null ( $postids ) ) ) $have_sticky_posts = true;
+if ( !( is_null ( $sticky_postids ) ) ) $have_sticky_posts = true;
 
-$num_recent = $num_recent_projects - sizeof( $postids );
+$num_recent = $num_recent_projects - sizeof( $sticky_postids );
 
 $recent_proj_loop = new WP_Query(
 	array(
 		'post_type'      	=> 'portfolio_item',
 		'posts_per_page' 	=> $num_recent,
 		'order' 			=> 'DESC', 
-		'post__not_in'		=> $postids
+		'post__not_in'		=> $sticky_postids,
+		'post_status'		=> 'publish'
 	)
 ); 
+
+
+
+// The first part of the page is the 'featured post' item
+$featured_item_loop = cares_get_featured_item();
+
 ?>
 
 	<div id="primary" class="content-area">
@@ -68,7 +74,9 @@ $recent_proj_loop = new WP_Query(
 
 			<?php get_template_part( 'content', 'none' ); ?>
 
-		<?php endif; ?>
+		<?php endif;
+		wp_reset_postdata();
+		?>
 		
 		
 		<?php // Next, loop through the three most recent portfolio items, if this is the front, front page 
@@ -81,9 +89,10 @@ $recent_proj_loop = new WP_Query(
 				<section id="recent-projects" class="content-container">
 					<h2 class="section-title">Recent Projects</h2>
 
-				<?php foreach( $postids as $id ) { 
+				<?php foreach( $sticky_postids as $id ) { 
 					//set up post data for sticky posts
-					$post = get_post( $id ); ?>
+					$post = get_post( $id ); 
+					setup_postdata( $post ); ?>
 					
 					<div class="third-block">
 						<?php get_template_part( 'content', get_post_type( $post ) ); ?>
@@ -123,12 +132,15 @@ $recent_proj_loop = new WP_Query(
 			<?php endif; ?>
 	
 		<?php endif; // Check for is-paged() ?>
-
-		<div class="loadmore aligncenter">
-			<a class="more-projects">See More Projects <!--&#x25BC;--></a>
-			<div class="spinny"></div>
-			<div id="more_posts"><input type="hidden" id="num_more_posts" value="<?php if ( $total_num_projects > 6 ) echo '1'; else echo '0'; ?>" /></div>
-		</div>
+	
+		<?php if ( $total_num_projects > 6 ){ ?>
+			<div class="loadmore aligncenter">
+				<a class="more-projects">See More Projects <!--&#x25BC;--></a>
+				<div class="spinny"></div>
+				<div id="more_posts"><input type="hidden" id="num_more_posts" value="<?php echo '1'; ?>" /></div>
+			</div>
+		<?php } ?>
+		
 		<hr />
 		
 		<div class="lower-content">

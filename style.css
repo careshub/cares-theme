@@ -1170,8 +1170,9 @@ object {
 	margin-top:0;
 	max-width:100%;
   }
-  .portfolio-archive form#searchform input#searchsubmit {
-	float:right;
+  .portfolio-archive form#searchform input#searchsubmit,
+  .search-results form#searchform input#searchsubmit  {
+	
 	padding:4px 0 0 4px;
   }
 	

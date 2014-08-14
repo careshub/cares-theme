@@ -56,12 +56,13 @@ get_header();
 			
 			
 			<input type="hidden" name="project_page" value="1" />
-			
-			<div class="loadmore aligncenter">
-				<a class="more-projects">See More Projects</a>
-				<div class="spinny"></div>
-				<div id="more_posts"><input type="hidden" id="num_more_posts" value="<?php if ( $total_num_projects > 6 ) echo '1'; else echo '0'; ?>" /></div>
-			</div>
+			<?php if ( $total_num_projects > 6 ){ ?>
+				<div class="loadmore aligncenter">
+					<a class="more-projects">See More Projects</a>
+					<div class="spinny"></div>
+					<div id="more_posts"><input type="hidden" id="num_more_posts" value="<?php  echo '1'; ?>" /></div>
+				</div>
+			<?php } ?>
 			
 		<?php else : ?>
 
