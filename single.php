@@ -28,11 +28,12 @@ get_header(); ?>
 				get_template_part( 'content', $post_type );
 			} else {
 				get_template_part( 'content', 'single' );
+				cares_archive_nav( $post_type );
 			}
 			?>
 
 			<?php 
-			if ( $post_type != 'profile') 
+			if ( ( $post_type != 'profile' ) && ( $post_type != 'portfolio_item' ) ) 
 				cares_post_nav(); 
 			?>
 
