@@ -1215,6 +1215,18 @@ object {
   .search-no-results .search-results section.no-results.not-found h1.page-title {
     float:none;
   }
+  .search-results .paging-navigation{
+	float:left;
+	width:100%;
+  }
+  .search-results .paging-navigation .nav-previous{
+	float:left;
+	
+  }
+  .search-results .paging-navigation .nav-next{
+	
+	float:right;
+  }
   .portfolio-archive form#searchform ,
   .search-results form#searchform {
     float:right;

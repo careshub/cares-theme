@@ -33,8 +33,9 @@ get_header(); ?>
 				</div>
 
 			<?php endwhile; ?>
-
+			<div>
 			<?php cares_paging_nav(); ?>
+			</div>
 
 		<?php else : ?>
 
