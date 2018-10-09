@@ -1,0 +1,47 @@
+/*
+Theme Name: CARES
+Theme URI: http://underscores.me/
+Author: Underscores.me
+Author URI: http://underscores.me/
+Description: Description
+Version: 1.0-wpcom
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: cares
+Domain Path: /languages/
+Tags:
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+ CARES is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic, Inc.
+
+Resetting and rebuilding styles have been helped along thanks to the fine work of
+Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html
+along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
+and Blueprint http://www.blueprintcss.org/
+*/
+@import "less-mixins";
+
+@import "default";
+
+// ems have their baseline value for this: ~16px
+// ~480px, phone, landscape
+@media screen and (min-width:30em) { 
+  @import "30em"; 
+}
+// ~600px, tablet, portrait
+@media screen and (min-width:37em) { 
+  @import "37em"; 
+}
+// @media screen and (min-width:700px) { 
+//   @import "700"; 
+// }
+// ~800px, tablet, landscape
+@media screen and (min-width:50em) { 
+  @import "50em"; 
+}
+//~1024px, desktop
+@media screen and (min-width:64em) { 
+  @import "64em"; 
+}
